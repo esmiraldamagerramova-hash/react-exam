@@ -4,27 +4,16 @@ import { useEffect, useState } from "react"
 const Homepage = () => {
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
-  const [openFaq, setOpenFaq] = useState(0)
-
   useEffect(() => {
     fetch("https://dummyjson.com/products?limit=8")
       .then(res => res.json())
       .then(data => setProducts(data.products))
   }, [])
 
-  const faqs = [
-    {
-      q: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed?",
-      a: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea"
-    },
-    { q: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed?", a: "" },
-    { q: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed?", a: "" },
-    { q: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed?", a: "" },
-  ]
-
   return (
     <div className="space-y-0">
 
+      {/* Hero Section */}
       <div className="bg-[#666666] text-white py-24 text-center space-y-6">
         <h1 className="text-4xl font-semibold leading-snug">
           Crafting Comfort, Redefining Spaces. <br /> Your Home, Your Signature Style!
@@ -48,6 +37,7 @@ const Homepage = () => {
         </div>
       </div>
 
+      {/* Featured Products */}
       <div className="px-10 py-16 space-y-6">
         <div className="flex justify-between items-start">
           <h2 className="text-[#252525] text-2xl font-bold">Featured Products</h2>
@@ -60,7 +50,7 @@ const Homepage = () => {
             <div key={item.id} className="space-y-2 cursor-pointer">
               <div className="relative">
                 <span className="absolute top-2 left-2 bg-[#282828] text-white text-xs px-2 py-0.5 rounded-full">-13%</span>
-                <img src={item.thumbnail} className="w-full h-44 object-cover rounded-xl bg-gray-200" />
+                <img src={item.thumbnail} className="w-full h-44 object-contain rounded-xl bg-gray-200" />
               </div>
               <p className="font-semibold text-sm text-[#252525]">{item.title}</p>
               <div className="flex items-center justify-between">
@@ -120,28 +110,29 @@ const Homepage = () => {
         </p>
         <div className="grid grid-cols-3 gap-4 text-left">
           <div className="row-span-2 bg-gray-300 rounded-xl relative overflow-hidden h-80">
-            {products[3] && <img src={products[3].thumbnail} className="w-full h-full object-cover" />}
+            {products[3] && <img src={products[3].thumbnail} className="w-full h-full object-contain" />}
             <div className="absolute bottom-3 left-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-lg">
               <span className="text-white font-semibold text-sm">Bedroom Furniture</span>
             </div>
           </div>
+          {/* Top middle */}
           <div className="bg-gray-300 rounded-xl relative overflow-hidden h-38">
-            {products[4] && <img src={products[4].thumbnail} className="w-full h-full object-cover" />}
+            {products[4] && <img src={products[4].thumbnail} className="w-full h-full object-contain" />}
             <div className="absolute bottom-3 left-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-lg">
               <span className="text-white font-semibold text-sm">Living Room Furniture</span>
             </div>
           </div>
           <div className="bg-gray-300 rounded-xl relative overflow-hidden h-38">
-            {products[5] && <img src={products[5].thumbnail} className="w-full h-full object-cover" />}
+            {products[5] && <img src={products[5].thumbnail} className="w-full h-full object-contain" />}
           </div>
           <div className="bg-gray-300 rounded-xl relative overflow-hidden h-38">
-            {products[6] && <img src={products[6].thumbnail} className="w-full h-full object-cover" />}
+            {products[6] && <img src={products[6].thumbnail} className="w-full h-full object-contain" />}
             <div className="absolute bottom-3 left-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-lg">
               <span className="text-white font-semibold text-sm">Dinning Room Furniture</span>
             </div>
           </div>
           <div className="bg-gray-300 rounded-xl relative overflow-hidden h-38">
-            {products[7] && <img src={products[7].thumbnail} className="w-full h-full object-cover" />}
+            {products[7] && <img src={products[7].thumbnail} className="w-full h-full object-contain" />}
             <div className="absolute bottom-3 left-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-lg">
               <span className="text-white font-semibold text-sm">Sofa Sets</span>
             </div>
@@ -169,7 +160,7 @@ const Homepage = () => {
             <div key={item.id} className="space-y-2 cursor-pointer">
               <div className="relative">
                 <span className="absolute top-2 left-2 bg-[#282828] text-white text-xs px-2 py-0.5 rounded-full">-13%</span>
-                <img src={item.thumbnail} className="w-full h-44 object-cover rounded-xl bg-gray-200" />
+                <img src={item.thumbnail} className="w-full h-44 object-contain rounded-xl bg-gray-200" />
               </div>
               <p className="font-semibold text-sm text-[#252525]">{item.title}</p>
               <div className="flex items-center justify-between">
@@ -188,7 +179,6 @@ const Homepage = () => {
         </div>
       </div>
 
-      {/* Unique Selling */}
       <div className="bg-[#666666] text-white flex justify-between items-start gap-5 py-30 px-30">
         <div className="flex-1">
           <h2 className="text-3xl font-semibold mb-7">
@@ -238,10 +228,10 @@ const Homepage = () => {
         <div className="grid grid-cols-3 gap-6">
           {products.slice(0, 3).map((item) => (
             <div key={item.id} className="space-y-3">
-              <img src={item.thumbnail} className="w-full h-40 object-cover rounded-xl bg-gray-200" />
+              <img src={item.thumbnail} className="w-full h-40 object-contain rounded-xl bg-gray-200" />
               <div className="flex items-center gap-2 text-gray-400 text-sm">
                 <div className="w-6 h-6 rounded-full bg-gray-300 overflow-hidden">
-                  <img src={item.thumbnail} className="w-full h-full object-cover" />
+                  <img src={item.thumbnail} className="w-full h-full object-contain" />
                 </div>
                 <span>Oliver Bennett</span>
                 <span>·</span>
@@ -268,19 +258,21 @@ const Homepage = () => {
         </div>
 
         <div className="flex-1 space-y-3">
-          {faqs.map((faq, i) => (
-            <div
-              key={i}
-              className="border rounded p-3 cursor-pointer"
-              onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#252525] text-sm">{faq.q}</p>
-                <span className="text-[#252525] ml-2">{openFaq === i ? '∧' : '∨'}</span>
-              </div>
-              {openFaq === i && faq.a && (
-                <p className="text-[#252525] text-sm mt-2">{faq.a}</p>
-              )}
+          <div className="border rounded p-3">
+            <div className="flex justify-between items-center">
+              <p className="text-[#252525] mb-2">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed?
+              </p>
+              <span className="text-[#252525] ml-2">∧</span>
+            </div>
+            <p className="text-[#252525] text-sm">
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
+            </p>
+          </div>
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="border rounded p-3 flex justify-between items-center text-[#252525]">
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed?</span>
+              <span className="ml-2">∨</span>
             </div>
           ))}
         </div>
