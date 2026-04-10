@@ -13,7 +13,6 @@ const Homepage = () => {
   return (
     <div className="space-y-0">
 
-      {/* Hero Section */}
       <div className="bg-[#666666] text-white py-24 text-center space-y-6">
         <h1 className="text-4xl font-semibold leading-snug">
           Crafting Comfort, Redefining Spaces. <br /> Your Home, Your Signature Style!
@@ -37,7 +36,6 @@ const Homepage = () => {
         </div>
       </div>
 
-      {/* Featured Products */}
       <div className="px-10 py-16 space-y-6">
         <div className="flex justify-between items-start">
           <h2 className="text-[#252525] text-2xl font-bold">Featured Products</h2>
@@ -115,7 +113,6 @@ const Homepage = () => {
               <span className="text-white font-semibold text-sm">Bedroom Furniture</span>
             </div>
           </div>
-          {/* Top middle */}
           <div className="bg-gray-300 rounded-xl relative overflow-hidden h-38">
             {products[4] && <img src={products[4].thumbnail} className="w-full h-full object-contain" />}
             <div className="absolute bottom-3 left-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-lg">
