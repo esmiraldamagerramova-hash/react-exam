@@ -1,73 +1,112 @@
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router"
-import { useEffect, useState } from "react"
 
 const Homepage = () => {
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
+  const [query, setQuery] = useState("")
   useEffect(() => {
     fetch("https://dummyjson.com/products?limit=8")
       .then(res => res.json())
       .then(data => setProducts(data.products))
   }, [])
 
+  const featured = useMemo(() => products.slice(0, 4), [products])
+
+  const onSearch = (e) => {
+    e.preventDefault()
+    const q = query.trim()
+    navigate(q ? `/products?q=${encodeURIComponent(q)}` : "/products")
+  }
+
   return (
     <div className="space-y-0">
 
-      <div className="bg-[#666666] text-white py-24 text-center space-y-6">
-        <h1 className="text-4xl font-semibold leading-snug">
-          Crafting Comfort, Redefining Spaces. <br /> Your Home, Your Signature Style!
-        </h1>
-        <p className="text-white max-w-md mx-auto text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nunc in molestie feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nunc in molestie feugiat
-        </p>
-        <div className="flex justify-center">
-          <div className="flex items-center bg-white rounded-full overflow-hidden px-4 py-2 gap-2 w-72">
-            <input
-              type="text"
-              placeholder="Search An Item"
-              className="flex-1 outline-none text-[#252525] text-sm bg-transparent"
-            />
-            <button className="bg-[#282828] text-white rounded-full p-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-              </svg>
-            </button>
-          </div>
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-zinc-950 via-zinc-800 to-zinc-700 text-white">
+        <div className="absolute inset-0 opacity-25">
+          <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-white blur-3xl" />
+          <div className="absolute -bottom-28 right-0 h-96 w-96 rounded-full bg-white blur-3xl" />
         </div>
-      </div>
 
-      <div className="px-10 py-16 space-y-6">
-        <div className="flex justify-between items-start">
-          <h2 className="text-[#252525] text-2xl font-bold">Featured Products</h2>
-          <p className="text-[#252525] max-w-xs text-sm text-right">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nunc in molestie feugiat. Nunc auctor consectetur elit, quis pulvina.
-          </p>
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          {products.slice(0, 4).map((item) => (
-            <div key={item.id} className="space-y-2 cursor-pointer">
-              <div className="relative">
-                <span className="absolute top-2 left-2 bg-[#282828] text-white text-xs px-2 py-0.5 rounded-full">-13%</span>
-                <img src={item.thumbnail} className="w-full h-44 object-contain rounded-xl bg-gray-200" />
-              </div>
-              <p className="font-semibold text-sm text-[#252525]">{item.title}</p>
-              <div className="flex items-center justify-between">
-                <div className="flex gap-2 items-center">
-                  <span className="text-gray-400 line-through text-sm">${item.price + 30}.00</span>
-                  <span className="text-[#252525] font-bold text-sm">${item.price}.00</span>
-                </div>
-                <button className="border border-[#282828] rounded-full p-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
+        <div className="relative px-6 py-16 sm:px-10 sm:py-20 lg:px-14">
+          <div className="mx-auto max-w-2xl text-center space-y-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-snug tracking-tight">
+              Crafting Comfort, Redefining Spaces.
+              <br className="hidden sm:block" /> Your Home, Your Signature Style!
+            </h1>
+            <p className="text-white/80 max-w-xl mx-auto text-sm sm:text-base">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nunc in molestie feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nunc in molestie feugiat
+            </p>
+
+            <form onSubmit={onSearch} className="flex justify-center">
+              <div className="flex w-full max-w-lg items-center gap-2 rounded-full bg-white/95 p-2 shadow-lg">
+                <input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  type="text"
+                  placeholder="Search an item"
+                  className="flex-1 rounded-full bg-transparent px-4 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400"
+                />
+                <button className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-800">
+                  Search
                 </button>
               </div>
-            </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 sm:py-14 space-y-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-zinc-900 text-2xl font-bold">Featured Products</h2>
+            <p className="mt-2 text-zinc-600 max-w-xl text-sm">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nunc in molestie feugiat. Nunc auctor consectetur elit, quis pulvina.
+          </p>
+          </div>
+          <button
+            onClick={() => navigate("/products")}
+            className="inline-flex items-center justify-center rounded-full border border-zinc-200 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-50"
+          >
+            View all →
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {featured.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => navigate(`/products/${item.id}`)}
+              className="group rounded-2xl border border-zinc-200 bg-white p-4 text-left shadow-sm transition hover:shadow-md"
+            >
+              <div className="relative">
+                <span className="absolute left-2 top-2 rounded-full bg-zinc-900 px-2 py-1 text-xs font-semibold text-white">
+                  -13%
+                </span>
+                <img
+                  src={item.thumbnail}
+                  alt={item.title}
+                  className="h-44 w-full rounded-xl bg-zinc-100 object-contain"
+                />
+              </div>
+              <p className="mt-3 line-clamp-2 text-sm font-semibold text-zinc-900 group-hover:underline">
+                {item.title}
+              </p>
+              <div className="mt-3 flex items-center justify-between">
+                <div className="flex gap-2 items-center">
+                  <span className="text-zinc-400 line-through text-sm">${item.price}</span>
+                  <span className="text-zinc-900 font-bold text-sm">${item.price}</span>
+                </div>
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 text-zinc-900">
+                  +
+                </span>
+              </div>
+            </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="pt-10 space-y-10 px-18">
+      <div className="pt-10 space-y-10 px-4 sm:px-0">
         <div className="text-center">
           <h1 className="text-[#252525] text-4xl font-semibold mb-4 leading-relaxed">
             Get To Know Who We Are And <br /> What We Do - About Us
@@ -77,7 +116,7 @@ const Homepage = () => {
           </p>
         </div>
 
-        <div className="flex justify-between items-start gap-10 text-[#252525] pb-16">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-10 text-[#252525] pb-16">
           <div className="flex-1">
             <h2 className="text-2xl font-bold mb-4">
               Learn About Us And What Sets Us Apart
@@ -101,12 +140,12 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="px-10 py-16 space-y-6 text-center">
+      <div className="px-4 sm:px-0 py-16 space-y-6 text-center">
         <h2 className="text-[#252525] text-2xl font-bold">View Our Range Of Categories</h2>
         <p className="text-[#252525] max-w-md mx-auto text-sm">
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam.
         </p>
-        <div className="grid grid-cols-3 gap-4 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
           <div className="row-span-2 bg-gray-300 rounded-xl relative overflow-hidden h-80">
             {products[3] && <img src={products[3].thumbnail} className="w-full h-full object-contain" />}
             <div className="absolute bottom-3 left-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-lg">
@@ -137,7 +176,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="px-10 py-16 space-y-6">
+      <div className="px-4 sm:px-0 py-16 space-y-6">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-[#252525] text-2xl font-bold pb-2">Most Popular Products</h2>
@@ -152,7 +191,7 @@ const Homepage = () => {
             View All <span>›</span>
           </button>
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {products.map((item) => (
             <div key={item.id} className="space-y-2 cursor-pointer">
               <div className="relative">
@@ -162,8 +201,6 @@ const Homepage = () => {
               <p className="font-semibold text-sm text-[#252525]">{item.title}</p>
               <div className="flex items-center justify-between">
                 <div className="flex gap-2 items-center">
-                  <span className="text-gray-400 line-through text-sm">${item.price + 30}.00</span>
-                  <span className="text-[#252525] font-bold text-sm">${item.price}.00</span>
                 </div>
                 <button className="border border-[#282828] rounded-full p-1">
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -176,7 +213,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="bg-[#666666] text-white flex justify-between items-start gap-5 py-30 px-30">
+      <div className="bg-[#666666] text-white flex flex-col lg:flex-row justify-between items-start gap-8 py-16 px-6 sm:px-10 rounded-3xl">
         <div className="flex-1">
           <h2 className="text-3xl font-semibold mb-7">
             Have a Look at Our Unique <br /> Selling Proportions
@@ -206,7 +243,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="px-10 py-20 space-y-6">
+      <div className="px-4 sm:px-0 py-20 space-y-6">
         <div className="flex justify-between items-center pb-5">
           <div>
             <h2 className="text-[#252525] text-2xl font-bold pb-3">Latest Ongoings</h2>
@@ -222,7 +259,7 @@ const Homepage = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {products.slice(0, 3).map((item) => (
             <div key={item.id} className="space-y-3">
               <img src={item.thumbnail} className="w-full h-40 object-contain rounded-xl bg-gray-200" />
@@ -240,7 +277,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="p-10 flex gap-10">
+      <div className="py-10 flex flex-col lg:flex-row gap-10">
         <div className="flex-1 space-y-4">
           <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
           <p className="text-[#252525]">
@@ -275,7 +312,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="bg-gray-100 p-6 flex justify-around items-center">
+      <div className="bg-zinc-50 p-6 flex flex-wrap justify-center gap-6 items-center rounded-3xl">
         <img src="../src/assets/shefinds-logo 1.svg" alt="" />
         <img src="../src/assets/yahoo-news-img 1.svg" alt="" />
         <img src="../src/assets/Healthline-img 1.svg" alt="" />
